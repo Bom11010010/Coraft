@@ -33,7 +33,7 @@ graph TD
 
 LM is better suited to handling existing languages ​​than to unknown new languages.
 
-In the future, if this language will no longer be "unknown new languages" to LMs, we may revisit an ANPL-like recursive complementation.
+In the future, if this language will no longer be "unknown new languages" to LMs, we may revisit a recursive complementation.
 
 ## Sample Code
 

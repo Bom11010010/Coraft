@@ -1,0 +1,38 @@
+
+var a = 0;
+
+fn fizzbuzz(i i32)str ?{
+    fizzbuzz
+}?
+
+fn test(i i32)i32 ?{
+    フィボナッチ数列のi番目を返す処理を書いてください。
+}?
+
+fn trim(s str) str ?{
+    Trim the s string.
+}?
+
+fn hello() str
+{
+    return "   Hello, World  ";
+}
+
+fn main() i32
+{
+    var world str = trim(hello());
+    say world;
+
+    ?{
+        You Must console Output "Hello, Coraft" string with std::cout.
+    }?
+
+    for(var i = 1; i < 41; i = i + 1){
+        say "==============";
+        say i;
+        say fizzbuzz(i);
+        say test(i);
+    }
+    
+    return 0;
+}

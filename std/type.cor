@@ -1,0 +1,37 @@
+@use cstdtype string vector
+
+type void same as cpp;
+
+type char same as cpp;
+
+
+type i8 = cpp(std::int8_t);
+type i16 = cpp(std::int16_t);
+type i32 = cpp(std::int32_t);
+type i64 = cpp(std::int64_t);
+
+type u8 = cpp(std::uint8_t);
+type u16 = cpp(std::uint16_t);
+type u32 = cpp(std::uint32_t);
+type u64 = cpp(std::uint64_t);
+
+type f16 = cpp(_Float16);
+type f32 = cpp(float);
+type f64 = cpp(double);
+
+type int = i32;
+type float = f32;
+type uint = u32;
+
+type str = cpp(std::string);
+
+type<Type T> vector = cpp(std::vector);
+
+type<Type T> list = cpp(std::list);
+
+type<?bool O = false, Type K, Type V> map;
+type<true, Type K, Type V> map = cpp(std::map);
+type<false, Type K, Type V> map = cpp(std::unordered_map);
+
+type<Type T> const = cpp(const);
+type auto = cpp(const);

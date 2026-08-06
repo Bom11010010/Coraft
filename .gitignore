@@ -1,0 +1,10 @@
+/build
+/bin
+/prototype
+
+/opah/models
+/opah/target
+
+/dace/node_modules
+
+/temp

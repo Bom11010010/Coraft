@@ -1,0 +1,320 @@
+warning: unused import: `builder::Str`
+ --> src/main.rs:1:20
+  |
+1 | use clap::{Parser, builder::Str};
+  |                    ^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `serde::Deserialize`
+  --> src/main.rs:10:5
+   |
+10 | use serde::Deserialize;
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `builder::Str`
+ --> src/args.rs:2:20
+  |
+2 | use clap::{Parser, builder::Str};
+  |                    ^^^^^^^^^^^^
+
+warning: unused imports: `Path` and `str::FromStr`
+ --> src/get_model.rs:1:18
+  |
+1 | use std::{path::{Path, PathBuf}, str::FromStr};
+  |                  ^^^^            ^^^^^^^^^^^^
+
+warning: unused imports: `Context`, `Result`, and `anyhow`
+ --> src/get_model.rs:3:14
+  |
+3 | use anyhow::{Result, anyhow, Context};
+  |              ^^^^^^  ^^^^^^  ^^^^^^^
+
+warning: unused imports: `Client`, `Request`, and `Response`
+ --> src/get_model.rs:4:15
+  |
+4 | use reqwest::{Client, Request, Response};
+  |               ^^^^^^  ^^^^^^^  ^^^^^^^^
+
+warning: unused imports: `AsyncSeekExt`, `AsyncWriteExt`, `BufWriter`, `SeekFrom`, `fs::File`, and `task::JoinSet`
+ --> src/get_model.rs:6:13
+  |
+6 | use tokio::{fs::File, io::{AsyncSeekExt, AsyncWriteExt, SeekFrom, BufWriter}, task::JoinSet};
+  |             ^^^^^^^^       ^^^^^^^^^^^^  ^^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^   ^^^^^^^^^^^^^
+
+warning: unused import: `futures_util::StreamExt`
+ --> src/get_model.rs:7:5
+  |
+7 | use futures_util::StreamExt;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `MultiProgress`, `ProgressBar`, and `ProgressStyle`
+ --> src/get_model.rs:8:17
+  |
+8 | use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
+  |                 ^^^^^^^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^^^^
+
+warning: unused imports: `PathBuf` and `str::FromStr`
+ --> src/get_model/download.rs:1:24
+  |
+1 | use std::{path::{Path, PathBuf}, str::FromStr};
+  |                        ^^^^^^^   ^^^^^^^^^^^^
+
+warning: unused imports: `Result` and `anyhow`
+ --> src/get_model/download.rs:3:14
+  |
+3 | use anyhow::{Result, anyhow, Context};
+  |              ^^^^^^  ^^^^^^
+
+warning: unused imports: `Request` and `Response`
+ --> src/get_model/download.rs:4:23
+  |
+4 | use reqwest::{Client, Request, Response};
+  |                       ^^^^^^^  ^^^^^^^^
+
+warning: unused import: `url::Url`
+ --> src/get_model/download.rs:5:5
+  |
+5 | use url::Url;
+  |     ^^^^^^^^
+
+warning: unused import: `llama_cpp_2::token::LlamaToken`
+ --> src/prompt_setup.rs:1:5
+  |
+1 | use llama_cpp_2::token::LlamaToken;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `ComplementTask`
+ --> src/prompt_setup.rs:3:61
+  |
+3 | use crate::{code_split::code_split, complement_task::{self, ComplementTask}, crete_complement_unit_stream::crete_complement_unit_stream};
+  |                                                             ^^^^^^^^^^^^^^
+
+warning: variable does not need to be mutable
+  --> src/get_model/download.rs:55:9
+   |
+55 |     let mut downloaded:u64 = 0;
+   |         ----^^^^^^^^^^
+   |         |
+   |         help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> src/get_model/download.rs:118:17
+    |
+118 |             let mut res = client
+    |                 ----^^^
+    |                 |
+    |                 help: remove this `mut`
+
+warning: variable does not need to be mutable
+   --> src/get_model/download.rs:130:17
+    |
+130 |             let mut downloaded:u64 = 0;
+    |                 ----^^^^^^^^^^
+    |                 |
+    |                 help: remove this `mut`
+
+warning: variable does not need to be mutable
+   --> src/get_model/download.rs:107:13
+    |
+107 |         let mut temporary_file: File = File::create(&temporary_file_path).await?;
+    |             ----^^^^^^^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: unused variable: `downloaded`
+   --> src/get_model/download.rs:130:17
+    |
+130 |             let mut downloaded:u64 = 0;
+    |                 ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_downloaded`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `downloaded`
+  --> src/get_model/download.rs:55:9
+   |
+55 |     let mut downloaded:u64 = 0;
+   |         ^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_downloaded`
+
+warning: unused variable: `line`
+  --> src/code_split.rs:22:21
+   |
+22 |                     line if lines[i].trim().starts_with("#pragma opah") =>{
+   |                     ^^^^ help: if this is intentional, prefix it with an underscore: `_line`
+
+warning: variable does not need to be mutable
+ --> src/crete_complement_unit_stream.rs:4:9
+  |
+4 |     let mut tasks: Vec<Box<dyn ComplementTask>> = Vec::new();
+  |         ----^^^^^
+  |         |
+  |         help: remove this `mut`
+
+warning: unused variable: `c`
+ --> src/crete_complement_unit_stream.rs:9:13
+  |
+9 |             c if chunk.trim().starts_with("#pragma opah") =>{
+  |             ^ help: if this is intentional, prefix it with an underscore: `_c`
+
+warning: unused variable: `c`
+  --> src/crete_complement_unit_stream.rs:16:13
+   |
+16 |             c if !chunk.trim().starts_with("#pragma opah") =>{
+   |             ^ help: if this is intentional, prefix it with an underscore: `_c`
+
+warning: value assigned to `cursor` is never read
+   --> src/main.rs:126:27
+    |
+126 |     let mut cursor: i32 = 0;
+    |                           ^ this value is reassigned later and never used
+...
+131 |     cursor = tokens.len() as i32;
+    |     ---------------------------- `cursor` is overwritten here before the previous value is read
+    |
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `get_chunk` is never used
+ --> src/complement_task.rs:2:8
+  |
+1 | pub trait ComplementTask{
+  |           -------------- method in this trait
+2 |     fn get_chunk(&self)-> &str;
+  |        ^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `create` is never used
+ --> src/complement_task.rs:5:8
+  |
+5 | pub fn create(kind: &str, src: &str, o_file_path: &str) -> Box<dyn ComplementTask>{
+  |        ^^^^^^
+
+warning: struct `Complement` is never constructed
+  --> src/complement_task.rs:21:8
+   |
+21 | struct Complement{
+   |        ^^^^^^^^^^
+
+warning: struct `PassThru` is never constructed
+  --> src/complement_task.rs:27:8
+   |
+27 | struct PassThru{
+   |        ^^^^^^^^
+
+warning: variant `STRING` is never constructed
+ --> src/code_split.rs:6:5
+  |
+2 | enum ParseState{
+  |      ---------- variant in this enum
+...
+6 |     STRING,
+  |     ^^^^^^
+
+warning: unused `Result` that must be used
+   --> src/main.rs:130:5
+    |
+130 |     ctx.kv_cache_seq_rm(0, None, None);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: this `Result` may be an `Err` variant, which should be handled
+    = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+    |
+130 |     let _ = ctx.kv_cache_seq_rm(0, None, None);
+    |     +++++++
+
+warning: unused `Result` that must be used
+   --> src/main.rs:178:5
+    |
+178 |     ctx.kv_cache_seq_rm(0, None, None);
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: this `Result` may be an `Err` variant, which should be handled
+help: use `let _ = ...` to ignore the resulting value
+    |
+178 |     let _ = ctx.kv_cache_seq_rm(0, None, None);
+    |     +++++++
+
+warning: `opah` (bin "opah") generated 33 warnings (run `cargo fix --bin "opah" -p opah` to apply 25 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.35s
+     Running `target/debug/opah ../t.cpp ../a.cpp`
+#include <string>
+#include <iostream>
+
+std::string fizzbuzz(int i)
+Prompt is fizzbuzzbool Mandelbrot(float real, float imag, float t, int repeatCount)
+Prompt is # write mandelbrot set.
+threshold is |z| > t.
+
+mandelbrot(real, imag, t, repeatCount)int main(){
+    std::string hello = "";
+
+    hello = "hello";
+
+    std::cout << hello << std::endl;
+
+    for (size_t i = 1; i < 51; ++i)
+Prompt is print `fizzbuzz(int)` function's return string.    for (int y = -100; y < 100; ++y){
+        for (int x = -100; x < 100; ++x){
+            if(Mandelbrot(x / 40.f, y / 40.f, 2.f, 10)){
+                std::cout << "+";
+            }else{
+                std::cout << " ";
+            }
+        }
+        std::cout << std::endl;
+        
+    }
+    
+    return 0;
+}
+
+#include <iostream>
+#include <cstdint>
+#include <cstddef>
+#include <memory>
+#include <vector>
+#include <string>
+
+auto a = 0;
+
+std::string fizzbuzz(std::int32_t i)
+Prompt is 
+    fizzbuzz
+    std::int32_t test(std::int32_t i)
+Prompt is 
+    フィボナッチ数列のi番目を返す処理を書いてください。\std::string trim(std::string s)
+Prompt is 
+    Trim the s string.\std::string hello()
+{
+    return "   Hello, World  ";
+}
+
+std::int32_t co_main()
+{
+    std::string world = trim(hello());
+    std::cout << world << std::endl;
+    
+Prompt is  Console Output "Hello, Coraft" string with std::cout.    {
+        std::cout << "==============" << std::endl;
+        std::cout << i << std::endl;
+        std::cout << fizzbuzz(i) << std::endl;
+        std::cout << test(i) << std::endl;
+    }
+    return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    std::vector<std::string> co_argv(argc);
+    for(size_t i = 0; i < argc; ++i)
+    {
+        co_argv[i] = std::string(argv[i]);
+    }
+    return static_cast<int>(co_main());
+}
+
+
+model profile is: qwen3

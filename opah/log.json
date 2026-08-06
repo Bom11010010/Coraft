@@ -1,0 +1,206 @@
+[
+    {
+        "type": "directory",
+        "oid": "15d1c4122fc327dac62b453df86e9ba151178257",
+        "size": 0,
+        "path": "BF16"
+    },
+    {
+        "type": "directory",
+        "oid": "81d85dbcd5dc83d4baebd9d92339673d6987244f",
+        "size": 0,
+        "path": "MXFP4_MOE"
+    },
+    {
+        "type": "directory",
+        "oid": "110addc4801b1ad9aee42cf243e994162de9b6c2",
+        "size": 0,
+        "path": "Q8_0"
+    },
+    {
+        "type": "directory",
+        "oid": "b555ee5e0ab45b4987c25ebe8b11f8f0e7b11404",
+        "size": 0,
+        "path": "UD-IQ4_NL"
+    },
+    {
+        "type": "directory",
+        "oid": "ebc6656dfe989051b86c5635ef2d69c240dd61ae",
+        "size": 0,
+        "path": "UD-IQ4_XS"
+    },
+    {
+        "type": "directory",
+        "oid": "7f44a246cd4a1c15857355e2b32f6a02b961d06b",
+        "size": 0,
+        "path": "UD-Q3_K_M"
+    },
+    {
+        "type": "directory",
+        "oid": "90b94adb0bf3bd96c931e8209bddf6497dc9fbba",
+        "size": 0,
+        "path": "UD-Q3_K_XL"
+    },
+    {
+        "type": "directory",
+        "oid": "5bf8846f20e6f9aa17a747ae4c8e870a071f27ee",
+        "size": 0,
+        "path": "UD-Q4_K_M"
+    },
+    {
+        "type": "directory",
+        "oid": "fb08760ac642b5edd7321b1dbb672d3462c875ff",
+        "size": 0,
+        "path": "UD-Q4_K_S"
+    },
+    {
+        "type": "directory",
+        "oid": "f7f2c2a600658b32755cf8ac18add0de57ecbfb9",
+        "size": 0,
+        "path": "UD-Q4_K_XL"
+    },
+    {
+        "type": "directory",
+        "oid": "aac409ac1603fd79fe8ab3b1bbf675f84e06a545",
+        "size": 0,
+        "path": "UD-Q5_K_M"
+    },
+    {
+        "type": "directory",
+        "oid": "9144e1bea13c3fcb1418add7c2f454ebbbafe5b9",
+        "size": 0,
+        "path": "UD-Q5_K_S"
+    },
+    {
+        "type": "directory",
+        "oid": "c6344220d80385b4e327a24127037a2aa45a9821",
+        "size": 0,
+        "path": "UD-Q5_K_XL"
+    },
+    {
+        "type": "directory",
+        "oid": "f6dc01a93f3dffcdb0ed2a6df42828a2fa239c9e",
+        "size": 0,
+        "path": "UD-Q6_K"
+    },
+    {
+        "type": "directory",
+        "oid": "1e558f3185d226c61dc5646dd6e914a0dcb12514",
+        "size": 0,
+        "path": "UD-Q6_K_XL"
+    },
+    {
+        "type": "directory",
+        "oid": "25a445b0cbf3a7a8154b5843c033e8d3f5aa83e7",
+        "size": 0,
+        "path": "UD-Q8_K_XL"
+    },
+    {
+        "type": "file",
+        "oid": "24fc883ac16f4931037a092abedc621c29d41c4b",
+        "size": 6677,
+        "path": ".gitattributes"
+    },
+    {
+        "type": "file",
+        "oid": "535b1a20553403de32a6bf527e8f971ffcb8b2ce",
+        "size": 35641635872,
+        "lfs": {
+            "oid": "f206eccec0e98b431adb97e94c3a2150101698e1c14bd8f89f3e7d77a08b747a",
+            "size": 35641635872,
+            "pointerSize": 136
+        },
+        "xetHash": "7fbecc3ff724d6898d58fb3bbfd7a5f38a6c599e8ed311d3c205cc535504447f",
+        "path": "Laguna-S-2.1-UD-IQ1_M.gguf"
+    },
+    {
+        "type": "file",
+        "oid": "6d97059fb7d3ba9188c3cee5ae09f5e5f0ee8d9d",
+        "size": 33766781984,
+        "lfs": {
+            "oid": "8aff9469f2f341d6b6792b6852b982d9d7a0605c28f66d89cf2bd32bcb864032",
+            "size": 33766781984,
+            "pointerSize": 136
+        },
+        "xetHash": "46e8d655fb495820f26e1d320dbc54938cce90a11cd242c98bd2e82c3bddc159",
+        "path": "Laguna-S-2.1-UD-IQ1_S.gguf"
+    },
+    {
+        "type": "file",
+        "oid": "170e0132d0faf5b795c5f5bb794b85732e241fec",
+        "size": 37268665376,
+        "lfs": {
+            "oid": "1a0d44795f71044de1a9671bf70def4655f4ab7294b002263dfc8046820bfd2c",
+            "size": 37268665376,
+            "pointerSize": 136
+        },
+        "xetHash": "787a292810bc00a2bc8400f8846b2b6dd8bf210769af377ccafad46de4bbb106",
+        "path": "Laguna-S-2.1-UD-IQ2_M.gguf"
+    },
+    {
+        "type": "file",
+        "oid": "09307e7348a01aa81f319474a214487c2d03a36a",
+        "size": 37189334048,
+        "lfs": {
+            "oid": "6d30792d70baec579e0455cb12f0ebee46e50799f097c0aea079bd8b6174922c",
+            "size": 37189334048,
+            "pointerSize": 136
+        },
+        "xetHash": "c10e3670f55d91fce10fc69fe07c19ff87462e21e73f4e3cb1bc521c1b9f0b2d",
+        "path": "Laguna-S-2.1-UD-IQ2_XXS.gguf"
+    },
+    {
+        "type": "file",
+        "oid": "9c1c4c260a9643fcd40661f481a437d44a162b60",
+        "size": 48428911520,
+        "lfs": {
+            "oid": "65bbdcfb22a5baefd0821a1013e2731d269ce2553935394ee810f6d0841747f4",
+            "size": 48428911520,
+            "pointerSize": 136
+        },
+        "xetHash": "25dd0021158c31a06ff65442c0201f9d76d23ff405ae0f4bdbc7033c46323581",
+        "path": "Laguna-S-2.1-UD-IQ3_S.gguf"
+    },
+    {
+        "type": "file",
+        "oid": "c19c1249879f832e3fa6fce8d76ef4f28ecd8c06",
+        "size": 44282842016,
+        "lfs": {
+            "oid": "2dfec3027a8fd265a57d401481abc44d87d206e4b5df41f2d878ce317c4e7f3c",
+            "size": 44282842016,
+            "pointerSize": 136
+        },
+        "xetHash": "e6633e5d7c433bb0d2390bd5ccb732418c639e879a179fcb762cc1fb956496eb",
+        "path": "Laguna-S-2.1-UD-IQ3_XXS.gguf"
+    },
+    {
+        "type": "file",
+        "oid": "949cf1a7ccee504f4ca68ab310f3dabd515b32ce",
+        "size": 39684584480,
+        "lfs": {
+            "oid": "8fe1170f012723f6f7d6c9b08d8f928b0b3d8bffc32926f33a930148a1d62679",
+            "size": 39684584480,
+            "pointerSize": 136
+        },
+        "xetHash": "134d3d56d5e5c552ecc76e2a60512c7dcb81bef5600ddb5f0fca7161f02cd21b",
+        "path": "Laguna-S-2.1-UD-Q2_K_XL.gguf"
+    },
+    {
+        "type": "file",
+        "oid": "21c1e9b368b3cc52ac7bd0d0e4c9574a47caaf48",
+        "size": 9333,
+        "path": "README.md"
+    },
+    {
+        "type": "file",
+        "oid": "da3276633f045b32e3aaf99c166aa35fcbe0dcec",
+        "size": 351195360,
+        "lfs": {
+            "oid": "158642bc6e6a55954ca48b77a4ffea990f2c740faf41b764c1a18d2f64b7af4a",
+            "size": 351195360,
+            "pointerSize": 134
+        },
+        "xetHash": "96d274e7de0eeb9b22cef3c5789b6f4df1219ac69a1e3bf1a7c0df20422b3bce",
+        "path": "imatrix_unsloth.gguf_file"
+    }
+]

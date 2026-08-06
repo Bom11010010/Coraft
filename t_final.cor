@@ -1,0 +1,21 @@
+
+pub fn fizzbuzz(index i32) str
+?{
+	Write fizzbuzz function. 
+}? // inline-prompt
+
+fn main(args vector<str>) i32
+{
+	var text str = "";
+	
+	?{ Assign "Hello Coraft" to the variable `text`. }? // inline-prompt
+
+	cout(<<, text, endl); // operator-chain, expanded to `cout << text << endl`
+
+	for(var i i32 = 0; i < stoi(args[1]); ++i)
+	?{
+		output return value of `fizzbuzz(i)` to console.
+	}?
+
+	return 0;
+}

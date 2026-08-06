@@ -5,6 +5,7 @@
 /opah/models
 /opah/target
 
+/dace/target
 /dace/node_modules
 
 /temp

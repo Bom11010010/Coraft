@@ -19,31 +19,16 @@ ANPL was proposed when LMs were not yet reliable enough — a situation similar 
 Furthermore, as long as there is demand for running inference on minimal hardware, reliability will always be a concern — regardless of how efficient LMs become.
 
 ## Compile Flow
-
-### Compile Modes
-Compile flow has two modes on Coraft one of these is "Easy Mode", inline-prompt for LMs are available in this mode, but run in a sandbox(e.g. WASM). The other one is "Turbo Mode", inline-prompt is disabled, but run on native.
-#### Why Two Modes?
-Certain tasks require OS access, yet trusting LM-generated code with such privileges is inherently risky.
-Easy Mode resolves this tension by sandboxing the output; Turbo Mode foregoes LM involvement entirely for trusted, native execution.
-#### Easy Mode
 ```mermaid
 graph TD
 	A[Coraft Code] -->|Transpile| B
 	A -->|Transpile and Extract Declaration | E
 	B[C++ Code with Prompt] -->|Complement by LM| C
 	E[C++ Header with Prompt] -->|Complement by LM| F
-	F[Completed C++ Header] -->|Compile| D[WASM Binary]
+	F[Completed C++ Header] -->|Compile| D[Binary]
 	C[Completed C++] -->|Compile| D
 ```
 
-#### Turbo Mode
-```mermaid
-graph TD
-	A[Coraft Code] -->|Transpile| B
-	A -->|Transpile and Extract Declaration | E
-	E[Completed C++ Header] -->|Compile| D[Native Binary]
-	B[Completed C++] -->|Compile| D
-```
 ### Why Complement Code After Transpilation?
 
 LM is better suited to handling existing languages ​​than to unknown new languages.

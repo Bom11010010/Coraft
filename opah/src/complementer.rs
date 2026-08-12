@@ -13,6 +13,7 @@ use crate::{get_model, model_profile::Config, get_prompt};
 
 static BACKEND: Mutex<Option<LlamaBackend>> = Mutex::new(None);
 static MODEL: Mutex<Option<LlamaModel>> = Mutex::new(None);
+static CTX_PARAM: Mutex<Option<LlamaContextParams>> = Mutex::new(None);
 
 pub async fn initialize(config: &Config)-> anyhow::Result<()>{
     
@@ -39,14 +40,20 @@ pub async fn initialize(config: &Config)-> anyhow::Result<()>{
             &model_param
         )?
     );
+
+    *CTX_PARAM.lock().unwrap() = Some(
+        LlamaContextParams::default()
+        .with_n_ctx(NonZeroU32::new(config.n_ctx))
+        .with_n_seq_max(config.n_seq_max)
+    );
+
     Ok(())
 }
 
 pub async fn complement(user: &str, path: &str, pre: &str, suf: &str, config: &Config) -> anyhow::Result<String>{
     let prompt = get_prompt::get(user, path, pre, suf);
-    let ctx_param = LlamaContextParams::default()
-        .with_n_ctx(NonZeroU32::new(config.n_ctx))
-        .with_n_seq_max(config.n_seq_max);
+    let g = CTX_PARAM.lock().unwrap();
+    let ctx_param = g.as_ref().unwrap();
 
     let g= BACKEND.lock().unwrap();
     let backend = g.as_ref().unwrap();
@@ -71,7 +78,7 @@ pub async fn complement(user: &str, path: &str, pre: &str, suf: &str, config: &C
     let mut output = String::new();
     let mut cursor: i32 = 0;
 
-    let mut ctx = model.new_context(backend, ctx_param)?;
+    let mut ctx = model.new_context(backend, ctx_param.clone())?;
 
     ctx.kv_cache_seq_rm(0, None, None);
     cursor = tokens.len() as i32;

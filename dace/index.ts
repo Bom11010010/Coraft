@@ -25,7 +25,7 @@ let ctx: TranspileContext = {
     includeListForHpp:[]
 }
 
-ctx.coraftCode = await iFile.text()
+ctx.coraftCode = (await iFile.text()).replaceAll("\r\n", "\n").replaceAll("\r", "\n");
 
 parse(ctx);
 console.dir(ctx, {depth: null, colors: true})

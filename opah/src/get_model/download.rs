@@ -93,7 +93,8 @@ async fn download_parallel(client: Client, url:&str, temporary_file_path:&Path, 
         .unwrap()
         .progress_chars("=>-")
     );
-
+    let mut temporary_file: File = File::create(&temporary_file_path).await?;
+    
     for i in 0..worker_count {
         let start = i as u64 * chunk_size;
         let end = if i == worker_count - 1{
@@ -104,7 +105,8 @@ async fn download_parallel(client: Client, url:&str, temporary_file_path:&Path, 
 
         let client = client.clone();
         
-        let mut temporary_file: File = File::create(&temporary_file_path).await?;
+        let mut temporary_file: File = temporary_file.try_clone().await?;
+
         temporary_file.set_len(total_size).await?;
 
         let url = url.to_string();

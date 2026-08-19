@@ -14,6 +14,7 @@
         packages = with pkgs; [
           cargo
           rustc
+          rust-analyzer
 
           ninja
           cmake

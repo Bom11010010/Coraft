@@ -2,13 +2,20 @@ use std::{path::{Path, PathBuf}, str::FromStr};
 
 use anyhow::{Result, anyhow, Context};
 use reqwest::{Client, Request, Response};
+use reqwest_middleware::{ClientBuilder, ClientWithMiddleware};
+use reqwest_retry::{RetryTransientMiddleware, policies::ExponentialBackoff};
 use url::Url;
 use tokio::{fs::File, io::{AsyncSeekExt, AsyncWriteExt, SeekFrom, BufWriter}, task::JoinSet};
 use futures_util::StreamExt;
 use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
 
 pub async fn download_model(url:&str, dl_path: &Path) -> anyhow::Result<()>{
-    let client = Client::new();
+    let retry_policy = ExponentialBackoff::builder()
+        .build_with_max_retries(3);
+    
+    let client = ClientBuilder::new(reqwest::Client::new())
+        .with(RetryTransientMiddleware::new_with_policy(retry_policy))
+        .build();
 
     let res = client
         .get(url)
@@ -44,7 +51,7 @@ pub async fn download_model(url:&str, dl_path: &Path) -> anyhow::Result<()>{
     Ok(())
 }
 
-async fn download_serial(client: Client, url:&str, temporary_file_path:&Path) -> anyhow::Result<()>{
+async fn download_serial(client: ClientWithMiddleware, url:&str, temporary_file_path:&Path) -> anyhow::Result<()>{
     eprintln!("Serial Download");
     let res = client.get(url).send().await?;
     let mut temporary_file = BufWriter::new(File::create(&temporary_file_path).await?);
@@ -75,7 +82,7 @@ async fn download_serial(client: Client, url:&str, temporary_file_path:&Path) ->
     Ok(())
 }
 
-async fn download_parallel(client: Client, url:&str, temporary_file_path:&Path, total_size: u64) -> anyhow::Result<()>{
+async fn download_parallel(client: ClientWithMiddleware, url:&str, temporary_file_path:&Path, total_size: u64) -> anyhow::Result<()>{
     eprintln!("Parallel Download");
 
     let mut join_set:JoinSet<anyhow::Result<()>> = JoinSet::new();
@@ -93,7 +100,6 @@ async fn download_parallel(client: Client, url:&str, temporary_file_path:&Path, 
         .unwrap()
         .progress_chars("=>-")
     );
-    let mut temporary_file: File = File::create(&temporary_file_path).await?;
     
     for i in 0..worker_count {
         let start = i as u64 * chunk_size;
@@ -105,7 +111,7 @@ async fn download_parallel(client: Client, url:&str, temporary_file_path:&Path, 
 
         let client = client.clone();
         
-        let mut temporary_file: File = temporary_file.try_clone().await?;
+        let mut temporary_file: File = File::create(&temporary_file_path).await?;
 
         temporary_file.set_len(total_size).await?;
 
@@ -151,8 +157,7 @@ async fn download_parallel(client: Client, url:&str, temporary_file_path:&Path, 
             o_file.flush().await?;
 
             Ok(())
-        }
-        );
+        });
     }
 
     while let Some(res) = join_set.join_next().await{

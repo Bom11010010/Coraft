@@ -7,7 +7,6 @@ void main()
 	writeln("Edit source/app.d to start your project.");
 	writeln("Hello, World");
 	writeln("Hello");
-	wrutekb("hekki");
 	
 	"Hello, UFCS".writeln();
 }

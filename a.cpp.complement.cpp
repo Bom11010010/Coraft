@@ -24,36 +24,26 @@ if(i % 15 == 0)
 std::int32_t test(std::int32_t i)
 {
 
-    if (i < 1) return 0;
-    if (i == 1) return 1;
-    if (i == 2) return 1;
-    auto a = 1;
-    auto b = 1;
-    for(auto j = 3; j <= i; j = j + 1)
+    auto result = 1;
+    for(auto j = 1; j <= i; j = j + 1)
     {
-        auto c = a + b;
-        a = b;
-        b = c;
+        result = result * 2;
     }
-    return b;
+    return result;
 
 }
 
 std::string trim(std::string s)
 {
 
-    std::string::iterator it = s.begin();
-    while(it != s.end() && *it == ' ')
+    while(!s.empty() && s.front() == ' ')
     {
-        it++;
+        s.erase(0, 1);
     }
-    s.erase(s.begin(), it);
-    it = s.end();
-    while(it != s.begin() && *(it-1) == ' ')
+    while(!s.empty() && s.back() == ' ')
     {
-        it--;
+        s.pop_back();
     }
-    s.erase(it, s.end());
     return s;
 
 }

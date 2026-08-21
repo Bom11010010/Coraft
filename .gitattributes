@@ -1,2 +1,8 @@
+* text=auto
+*.txt text
+
+*.sh text eol=lf
+*.nix text eol=lf
+
 third_party_licenses/** linguist-documentation
 t.cpp linguist-generated

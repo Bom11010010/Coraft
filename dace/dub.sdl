@@ -1,0 +1,5 @@
+name "dace"
+description "Dace Coraft Transpiler"
+authors "bom"
+copyright "Copyright © 2026, bom"
+license "MIT"

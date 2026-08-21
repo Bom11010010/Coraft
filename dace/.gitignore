@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/dace
+dace.so
+dace.dylib
+dace.dll
+dace.a
+dace.lib
+dace-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst

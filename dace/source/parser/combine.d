@@ -74,7 +74,8 @@ Parser!(Tuple!(WHICH_NODE, T, U)) or(T, U)(Parser!T p, Parser!U q){
     );
 }
 
-Parser!U map(T, U)(Parser!T p, U function(T) f){
+auto map(alias f, T)(Parser!T p){
+    alias U = typeof(f(T.init));
     return Parser!U(
         delegate(string src){
             auto result = p.parse(src);
@@ -88,7 +89,7 @@ Parser!U map(T, U)(Parser!T p, U function(T) f){
             }else{
                 return ParserResult!U(
                     false,
-                    f(result.content),
+                    U.init,
                     result.remaining,
                     result.errMsg,
                 );
@@ -172,5 +173,47 @@ Parser!(Nullable!T) optional(T)(Parser!T p){
             }
         }
     );
+}
 
+Parser!(typeof(null)) expect(T)(Parser!T p){
+    return Parser!(typeof(null))(
+        delegate(string src){
+            auto result = p.parse(src);
+            return ParserResult!(typeof(null))(
+                result.success,
+                null,
+                result.remaining,
+                result.errMsg
+            );
+        }
+    );
+}
+
+Parser!T thenExpect(T, U)(Parser!T p, Parser!U q){
+    return Parser!T(
+        delegate(string src){
+            auto pResult = p.parse(src);
+            if (!pResult.success){
+                return pResult;
+            }else{
+                auto qResult = q.parse(pResult.remaining);
+
+                if (qResult.success){
+                    return ParserResult!T(
+                        true,
+                        pResult.content,
+                        qResult.remaining,
+                        "",
+                    );
+                }else{
+                    return ParserResult!T(
+                        false,
+                        T.init,
+                        qResult.remaining,
+                        qResult.errMsg,
+                    );
+                }
+            }
+        }
+    );
 }

@@ -9,15 +9,8 @@ import std.ascii;
 
 void main()
 {
-	auto parser = decimalNumber().
-			then(many(
-				optional(ws()).
-					then(token("+")).
-					then(optional(ws())).
-					then(decimalNumber())
-			)
-		);
-	auto result = parser.parse("1 + 2 + 32");
+	auto parser = alphanumWord().thenExpect(optional(token(";")));
+	auto result = parser.parse("abc+++");
 
 	writeln(result);
 }

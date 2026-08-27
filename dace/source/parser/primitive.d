@@ -50,6 +50,51 @@ Parser!string token(string s){
     );
 }
 
+Parser!T choice(T)(Parser!T[] ps){
+    return Parser!T(
+        delegate(string src){
+            string err = "";
+            foreach (v; ps)
+            {
+                auto pResult = v.parse(src);
+                if(pResult.success){
+                    return pResult;
+                }else{
+                    err ~= pResult.errMsg ~ "\n";
+                }
+            }
+            return ParserResult!T(
+                false,
+                T.init,
+                src,
+                err,
+            );
+        }
+    );
+}
+
+Parser!string choiceToken(string[] strs){
+    return Parser!string(
+        delegate(string src){
+            string err = "exepted one of:";
+            foreach (s; strs){
+                auto pResult = token(s).parse(src);
+                if(pResult.success){
+                    return pResult;
+                }else{
+                    err ~= " \"" ~ s ~ "\" |";
+                }
+            }
+            return ParserResult!string(
+                false,
+                "",
+                src,
+                err[0 .. $ - 1],
+            );
+        }
+    );
+}
+
 Parser!dchar satisfy(bool function(dchar) f){
     return Parser!dchar(
         delegate(string src){

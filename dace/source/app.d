@@ -1,12 +1,23 @@
 import std.stdio;
 
-import ast_node;
+import parser.parser;
+import parser.primitive;
+import parser.combine;
+import parser.basic_words;
+import std.ascii;
+
 
 void main()
 {
-	writeln("Edit source/app.d to start your project.");
-	writeln("Hello, World");
-	writeln("Hello");
-	
-	"Hello, UFCS".writeln();
+	auto parser = decimalNumber().
+			then(many(
+				optional(ws()).
+					then(token("+")).
+					then(optional(ws())).
+					then(decimalNumber())
+			)
+		);
+	auto result = parser.parse("1 + 2 + 32");
+
+	writeln(result);
 }

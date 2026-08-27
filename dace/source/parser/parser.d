@@ -13,8 +13,8 @@ struct ParserResult(T)
     string toString() const
     {
         return success
-            ? "Success(%s, remaining=%s)".format(content, remaining)
-            : "Failure(errMsg=%s, remaining=%s)".format(errMsg, remaining);
+            ? "Success(%s, remaining = %s)".format(content, remaining)
+            : "Failure(errMsg = %s, remaining = %s)".format(errMsg, remaining);
     }
 }
 

@@ -4,13 +4,14 @@ import parser.parser;
 import parser.primitive;
 import parser.combine;
 import parser.basic_words;
+import parser.number_literal;
 import std.ascii;
 
 
 void main()
 {
-	auto parser = alphanumWord().thenExpect(optional(token(";")));
-	auto result = parser.parse("abc+++");
+	auto parser = numberLiteral();
+	auto result = parser.parse("-0x1033ff.3d34po");
 
 	writeln(result);
 }

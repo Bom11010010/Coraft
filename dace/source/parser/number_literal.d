@@ -1,76 +1,82 @@
 module parser.number_literal;
 
+import parser.ast_kind;
 import parser.parser;
 import parser.combine;
 import parser.primitive;
 import parser.basic_words;
+import std.array;
+import std.stdio;
+import std.conv;
 
 import std.typecons;
 
-public alias decimalNaturalNumber = ()=>choice([token("0d"), pureValue("0d")]).then(decimalNumber());
-public alias binNaturalNumber = ()=>token("0b").then(binNumber());
-public alias octNaturalNumber = ()=>token("0o").then(octNumber());
-public alias hexNaturalNumber = ()=>token("0x").then(hexNumber());
+public alias decimalNaturalNumber = ()=>choice([token("0d"), pureValue(createLeaf("0d"))]).
+    then(decimalNumber());
 
-public alias numberSign = ()=>choice([
+public ParserSpawner binNaturalNumber = ()=>token("0b").
+    then(binNumber());
+
+public ParserSpawner octNaturalNumber = ()=>token("0o").
+    then(octNumber());
+
+public ParserSpawner hexNaturalNumber = ()=>token("0x").
+    then(hexNumber());
+
+public ParserSpawner numberSign = ()=>choice([
         choiceToken(["+", "-"]),
-        pureValue("+")
+        pureValue(createLeaf("+"))
     ]);
 
-public alias naturalNumber = ()=>choice([
+public ParserSpawner naturalNumber = ()=>choice([
         binNaturalNumber(),
         octNaturalNumber(),
         hexNaturalNumber(),
         decimalNaturalNumber()
 ]);
 
-public alias intValue = ()=>numberSign().then(naturalNumber()).map!(
-    ( Tuple!(string, Tuple!(string, string)) t) => Tuple!(string, string, string)(t[0], t[1][0], t[1][1])
-);
+public ParserSpawner intValue = ()=>numberSign().then(naturalNumber()).setKind(AstKind.INT);
 
-public alias decimalPositiveFloatNumber = ()=>choice([token("0d"), pureValue("0d")]).
+public ParserSpawner decimalPositiveFloatNumber = ()=>choice([token("0d"), pureValue(createLeaf("0d"))]).
     then(decimalNumber()).
     thenExpect(token(".")).
-    then(choice([decimalNumber(), pureValue("0")]));
+    then(choice([decimalNumber(), pureValue(createLeaf("0"))])).
+    map!((ParserContent c)=>createNode(c.node[0].node[0], c.node[0].node[1], c.node[1]));
 
-public alias binPositiveFloatNumber = ()=>token("0b").
+public ParserSpawner binPositiveFloatNumber = ()=>token("0b").
     then(binNumber()).
     thenExpect(token(".")).
-    then(choice([binNumber(), pureValue("0")]));
+    then(choice([binNumber(), pureValue(createLeaf("0"))])).
+    map!((ParserContent c)=>createNode(c.node[0].node[0], c.node[0].node[1], c.node[1]));
 
-public alias octPositiveFloatlNumber = ()=>token("0o").
+public ParserSpawner octPositiveFloatlNumber = ()=>token("0o").
     then(octNumber()).
     thenExpect(token(".")).
-    then(choice([octNumber(), pureValue("0")]));
+    then(choice([octNumber(), pureValue(createLeaf("0"))])).
+    map!((ParserContent c)=>createNode(c.node[0].node[0], c.node[0].node[1], c.node[1]));
 
-public alias hexPositiveFloatlNumber = ()=>token("0x").
+public ParserSpawner hexPositiveFloatlNumber = ()=>token("0x").
     then(hexNumber()).
     thenExpect(token(".")).
-    then(choice([hexNumber(), pureValue("0")]));
+    then(choice([hexNumber(), pureValue(createLeaf("0"))])).
+    map!((ParserContent c)=>createNode(c.node[0].node[0], c.node[0].node[1], c.node[1]));
 
-public alias positiveFloatlNumber = ()=>choice([
+public ParserSpawner positiveFloatlNumber = ()=>choice([
         binPositiveFloatNumber(),
         octPositiveFloatlNumber(),
         hexPositiveFloatlNumber(),
         decimalPositiveFloatNumber()
-]).map!((Tuple!(Tuple!(string, string), string) t) => Tuple!(string, string, string)(t[0][0], t[0][1], t[1]));
+]).setKind(AstKind.FLOAT);
 
-public alias floatlNumber = ()=>numberSign().then(positiveFloatlNumber()).
-    map!(
-        (Tuple!(string, Tuple!(string, string, string)) t) => 
-        Tuple!(string, string, string, string)(t[0], t[1][0], t[1][1], t[1][2])
-    );
+public ParserSpawner floatlNumber = ()=>numberSign().then(positiveFloatlNumber());
 
-public alias numberLiteralBody = ()=>choice([
+public ParserSpawner numberLiteralBody = ()=>choice([
     floatlNumber(), 
-    intValue().map!(
-        (Tuple!(string, string, string) t) => Tuple!(string, string, string, string)(t[0], t[1], t[2], "_") // An underscore is added to the fractional part of integer literals
-                                                                                                            // to distinguish them from floating-point literals.
-    )
-]);
+    intValue()
+]).setKind(AstKind.NUMBER_LITERAL_BODY);
 
-public alias numberLiteralSuf = ()=>choiceToken(["U", "_8", "_16", "_32", "_64"]);
+public ParserSpawner numberLiteralSuf = ()=>choiceToken(["U", "_8", "_16", "_32", "_64"]).setKind(AstKind.LITERAL_SUF);
 
-public alias numberLiteral = ()=>numberLiteralBody().
-    then(many(numberLiteralSuf())
-    );
+public ParserSpawner numberLiteral = ()=>numberLiteralBody().
+    then(many(numberLiteralSuf()).setKind(AstKind.LITERAL_SUF_STREAM)
+    ).setKind(AstKind.NUMBER);

@@ -1,32 +1,34 @@
 module parser.combine;
 
+import parser.ast_kind;
 import parser.parser;
 import std.typecons;
+import std.stdio;
 
-Parser!(Tuple!(T, U)) then(T, U)(Parser!T p, Parser!U q){
-    return Parser!(Tuple!(T, U))(
+Parser then(lazy Parser p, lazy Parser q){
+    return Parser(
         delegate(string src){
             auto pResult = p.parse(src);
             if(!pResult.success){
-                return ParserResult!(Tuple!(T, U))(
+                return ParserResult(
                     false,
-                    Tuple!(T, U)(pResult.content, q.parse("").content),
+                    createNode([pResult.content, q.parse("").content]),
                     src,
                     pResult.errMsg,
                 );
             }else{
                 auto qResult = q.parse(pResult.remaining);
                 if(!qResult.success){
-                    return ParserResult!(Tuple!(T, U))(
+                    return ParserResult(
                         false,
-                        Tuple!(T, U)(pResult.content, qResult.content),
+                        createNode([pResult.content, qResult.content]),
                         pResult.remaining,
                         qResult.errMsg,
                     );
                 }
-                return ParserResult!(Tuple!(T, U))(
+                return ParserResult(
                     true,
-                    Tuple!(T, U)(pResult.content, qResult.content),
+                    createNode([pResult.content, qResult.content]),
                     qResult.remaining,
                     "",
                 );
@@ -35,61 +37,43 @@ Parser!(Tuple!(T, U)) then(T, U)(Parser!T p, Parser!U q){
     );
 }
 
-enum WHICH_NODE
-{
-    LEFT,
-    RIGHT,
-}
-
-Parser!(Tuple!(WHICH_NODE, T, U)) or(T, U)(Parser!T p, Parser!U q){
-    return Parser!(Tuple!(WHICH_NODE, T, U))(
+Parser or(lazy Parser p, lazy Parser q){
+    return Parser(
         delegate(string src){
             auto pResult = p.parse(src);
             if(!pResult.success){
                 auto qResult = q.parse(src);
                 if(!qResult.success){
-                    return ParserResult!(Tuple!(WHICH_NODE, T, U))(
+                    return ParserResult(
                         false,
-                        Tuple!(WHICH_NODE, T, U)(WHICH_NODE.LEFT, pResult.content, qResult.content),
+                        createLeaf([]),
                         src,
                         pResult.errMsg ~ "\n" ~ qResult.errMsg,
                     );
                 }
-                return ParserResult!(Tuple!(WHICH_NODE, T, U))(
-                    true,
-                    Tuple!(WHICH_NODE, T, U)(WHICH_NODE.RIGHT, pResult.content, qResult.content),
-                    qResult.remaining,
-                    "",
-                );
+                return qResult;
             }else{
-                auto qResult = q.parse("");
-                return ParserResult!(Tuple!(WHICH_NODE, T, U))(
-                    true,
-                    Tuple!(WHICH_NODE, T, U)(WHICH_NODE.LEFT, pResult.content, qResult.content),
-                    pResult.remaining,
-                    "",
-                );
+                return pResult;
             }
         }
     );
 }
 
-auto map(alias f, T)(Parser!T p){
-    alias U = typeof(f(T.init));
-    return Parser!U(
+auto map(alias f)(lazy Parser p){
+    return Parser(
         delegate(string src){
             auto result = p.parse(src);
             if(result.success){
-                return ParserResult!U(
+                return ParserResult(
                     true,
                     f(result.content),
                     result.remaining,
                     "",
                 );
             }else{
-                return ParserResult!U(
+                return ParserResult(
                     false,
-                    U.init,
+                    createLeaf(""),
                     result.remaining,
                     result.errMsg,
                 );
@@ -98,12 +82,12 @@ auto map(alias f, T)(Parser!T p){
     );
 }
 
-Parser!(T[]) many(T)(Parser!T p){
-    return Parser!(T[])(
+Parser many(lazy Parser p){
+    return Parser(
         delegate(string src){
             auto cond = true;
             auto remaining = src;
-            T[] content = [];
+            ParserContent[] content = [];
             while(cond){
                 if(remaining.length == 0){
                     break;
@@ -115,9 +99,9 @@ Parser!(T[]) many(T)(Parser!T p){
                 }
                 cond = result.success;
             }
-            return ParserResult!(T[])(
+            return ParserResult(
                 true,
-                content,
+                createNode(content),
                 remaining,
                 "",
             );
@@ -125,21 +109,21 @@ Parser!(T[]) many(T)(Parser!T p){
     );
 }
 
-Parser!(T[]) many1(T)(Parser!T p){
-    return Parser!(T[])(
+Parser many1(lazy Parser p){
+    return Parser(
         delegate(string src){
-            auto manyP = many!T(p);
+            auto manyP = many(p);
             auto result = manyP.parse(src);
-            if(result.content.length == 0){
+            if(result.content.node.length == 0){
                 auto singleResult = p.parse(src);
-                return ParserResult!(T[])(
+                return ParserResult(
                     false,
-                    [],
+                    createNode([]),
                     src,
                     singleResult.errMsg,
                 );
             }else{
-                return ParserResult!(T[])(
+                return ParserResult(
                     true,
                     result.content,
                     result.remaining,
@@ -150,23 +134,22 @@ Parser!(T[]) many1(T)(Parser!T p){
     );
 }
 
-Parser!(Nullable!T) optional(T)(Parser!T p){
-    return Parser!(Nullable!T)(
+Parser optional(lazy Parser p){
+    return Parser(
         delegate(string src){
             auto result = p.parse(src);
             if(result.success){
-                Nullable!T content = result.content;
-                return ParserResult!(Nullable!T)(
+                auto content = result.content;
+                return ParserResult(
                     true,
                     content,
                     result.remaining,
                     "",
                 );
             }else{
-                Nullable!T n;
-                return ParserResult!(Nullable!T)(
+                return ParserResult(
                     true,
-                    n,
+                    createLeaf(""),
                     result.remaining,
                     "",
                 );
@@ -175,13 +158,13 @@ Parser!(Nullable!T) optional(T)(Parser!T p){
     );
 }
 
-Parser!(typeof(null)) expect(T)(Parser!T p){
-    return Parser!(typeof(null))(
+Parser expect(lazy Parser p){
+    return Parser(
         delegate(string src){
             auto result = p.parse(src);
-            return ParserResult!(typeof(null))(
+            return ParserResult(
                 result.success,
-                null,
+                createLeaf(""),
                 result.remaining,
                 result.errMsg
             );
@@ -189,8 +172,8 @@ Parser!(typeof(null)) expect(T)(Parser!T p){
     );
 }
 
-Parser!T thenExpect(T, U)(Parser!T p, Parser!U q){
-    return Parser!T(
+Parser thenExpect(lazy Parser p, lazy Parser q){
+    return Parser(
         delegate(string src){
             auto pResult = p.parse(src);
             if (!pResult.success){
@@ -199,21 +182,56 @@ Parser!T thenExpect(T, U)(Parser!T p, Parser!U q){
                 auto qResult = q.parse(pResult.remaining);
 
                 if (qResult.success){
-                    return ParserResult!T(
+                    return ParserResult(
                         true,
                         pResult.content,
                         qResult.remaining,
                         "",
                     );
                 }else{
-                    return ParserResult!T(
+                    return ParserResult(
                         false,
-                        T.init,
+                        createLeaf(""),
                         qResult.remaining,
                         qResult.errMsg,
                     );
                 }
             }
+        }
+    );
+}
+
+Parser setKind(lazy Parser p, AstKind k){
+    return Parser(
+        delegate(string src){
+            auto pResult = p.parse(src);
+
+            pResult.content.kind = k;
+            
+            return ParserResult(
+                pResult.success,
+                pResult.content,
+                pResult.remaining,
+                pResult.errMsg,
+            );
+        }
+    );
+}
+
+Parser wrap(lazy Parser p, AstKind k){
+    return Parser(
+        delegate(string src){
+            auto pResult = p.parse(src);
+
+            auto subNode = createNode([pResult.content]);
+            subNode.kind = k;
+            
+            return ParserResult(
+                pResult.success,
+                subNode,
+                pResult.remaining,
+                pResult.errMsg,
+            );
         }
     );
 }

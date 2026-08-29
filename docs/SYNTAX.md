@@ -199,7 +199,6 @@ elif        // else if
 enum        // enum class
 
 struct      // struct
-class       // class
 
 
 
@@ -313,16 +312,28 @@ for(initialize; condition; counting)?{      // --> このように、ブロッ�
 "text テキスト" //文字列
 'c'         //文字
 
+true           // 真偽値true
+false          // 真偽値false
+
+null           // null型
+
+ReturnType(ArgTypes args) => { body }   // 関数リテラル
+
+[value1, value2, ...]                   // 配列リテラル
+{key1: value1, key2, value2}            // Mapリテラル
+
 
 ```
 ### リテラルのプレフィックス・サフィックス
 これらは大文字小文字を区別する。
 ```
 
+
 //プレフィックス
 0b                  // 2進数数値
 0o                  // 8進数数値
-0x                  // 16進数数値(数値部分のアルファベットは小文字のみが認められる)
+0d                  // 10進数数値
+0x                  // 16進数数値
 
 u8                  // utf8
 
@@ -332,6 +343,20 @@ _8                  //サイズを8bitにする。浮動小数点数には非対
 _16                 //サイズを16bitにする。
 _32                 //サイズを32bitにする。
 _64                 //サイズを64bitにする。
+
+
+```
+### C++とのFFI
+```
+
+
+cpp_var < string header, string name, < template_args >, Type type>
+cpp_type < string header, string name, < template_args > >
+cpp_fn < string header, string name, < template_args >, Type return_type >
+cpp_struct < string header, string name, < template_args >, { body } >
+cpp_enum < string header, string name, { body } >
+cpp_union < string header, string name, { body } >
+
 
 ```
 

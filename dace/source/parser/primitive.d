@@ -4,13 +4,13 @@ import parser.parser;
 import std.conv;
 import std.utf;
 
-Parser!dchar glyph(){
-    return Parser!dchar(
+Parser glyph(){
+    return Parser(
         delegate(string src){
             dchar g = decodeFront(src);
-            return ParserResult!dchar(
+            return ParserResult(
                 true,
-                g,
+                createLeaf(g.to!string()),
                 src,
                 "",
             );
@@ -18,13 +18,13 @@ Parser!dchar glyph(){
     );
 }
 
-Parser!string token(string s){
-    return Parser!string(
+Parser token(string s){
+    return Parser(
         delegate(string src){
             if(src.length < s.length){
-                return ParserResult!string(
+                return ParserResult(
                     false,
-                    "",
+                    createLeaf(""),
                     src,
                     "\"" ~ s ~ "\" is not exist."
                 );
@@ -32,16 +32,16 @@ Parser!string token(string s){
             string t = src[0 .. s.length];
             string remaining = src[s.length .. $];
             if (t == s){
-                return ParserResult!string(
+                return ParserResult(
                     true,
-                    t,
+                    createLeaf(t),
                     remaining,
                     "",
                 );  
             }else{
-                return ParserResult!string(
+                return ParserResult(
                     false,
-                    "",
+                    createLeaf(""),
                     src,
                     "\"" ~ s ~ "\" is not exist."
                 );
@@ -50,8 +50,8 @@ Parser!string token(string s){
     );
 }
 
-Parser!T choice(T)(Parser!T[] ps){
-    return Parser!T(
+Parser choice(lazy Parser[] ps){
+    return Parser(
         delegate(string src){
             string err = "";
             foreach (v; ps)
@@ -63,9 +63,9 @@ Parser!T choice(T)(Parser!T[] ps){
                     err ~= pResult.errMsg ~ "\n";
                 }
             }
-            return ParserResult!T(
+            return ParserResult(
                 false,
-                T.init,
+                createLeaf(""),
                 src,
                 err,
             );
@@ -73,8 +73,8 @@ Parser!T choice(T)(Parser!T[] ps){
     );
 }
 
-Parser!string choiceToken(string[] strs){
-    return Parser!string(
+Parser choiceToken(string[] strs){
+    return Parser(
         delegate(string src){
             string err = "exepted one of:";
             foreach (s; strs){
@@ -85,9 +85,9 @@ Parser!string choiceToken(string[] strs){
                     err ~= " \"" ~ s ~ "\" |";
                 }
             }
-            return ParserResult!string(
+            return ParserResult(
                 false,
-                "",
+                createLeaf(""),
                 src,
                 err[0 .. $ - 1],
             );
@@ -95,29 +95,29 @@ Parser!string choiceToken(string[] strs){
     );
 }
 
-Parser!dchar satisfy(bool function(dchar) f){
-    return Parser!dchar(
+Parser satisfy(bool function(dchar) f){
+    return Parser(
         delegate(string src){
             if (src == ""){
-                return ParserResult!dchar(
+                return ParserResult(
                     false,
-                    '_',
+                    createLeaf("_"),
                     src,
                     "src is empty",
                 );
             }
             dchar g = decodeFront(src);
             if (f(g)){
-                return ParserResult!dchar(
+                return ParserResult(
                     true,
-                    g,
+                    createLeaf(g.to!string()),
                     src,
                     "",
                 );
             }else{
-                return ParserResult!dchar(
+                return ParserResult(
                     false,
-                    '_',
+                    createLeaf("_"),
                     g.to!string ~ src,
                     "'" ~ (g.to!string()) ~ "' does not meet the conditions.",
                 );
@@ -126,10 +126,10 @@ Parser!dchar satisfy(bool function(dchar) f){
     );
 }
 
-Parser!T pureValue(T)(T v){
-    return Parser!T(
+Parser pureValue(lazy ParserContent v){
+    return Parser(
         delegate(string src){
-            return ParserResult!T(
+            return ParserResult(
                 true,
                 v,
                 src,
@@ -139,12 +139,12 @@ Parser!T pureValue(T)(T v){
     );
 }
 
-Parser!(typeof(null)) fail(string msg){
-    return Parser!(typeof(null))(
+Parser fail(string msg){
+    return Parser(
         delegate(string src){
-            return ParserResult!(typeof(null))(
+            return ParserResult(
                 false,
-                null,
+                createLeaf(""),
                 src,
                 msg,
             );

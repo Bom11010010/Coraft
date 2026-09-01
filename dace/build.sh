@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 cd "$(dirname "$0")"
 
-dub build dace
+bun build --compile ./index.ts --outfile ../bin/dace

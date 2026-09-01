@@ -1,2 +1,0 @@
-
-dub run dace -- @args

@@ -26,23 +26,10 @@
 
           gcc
 
-          dub
-          ldc
-          serve-d
-          dfmt
+          bun
+          typescript-language-server
+          typescript
         ];
-
-        shellHook = ''
-          if ! [ -f DCD/bin/dcd-server ]; then
-            git clone "https://github.com/dlang-community/DCD.git"
-            cd DCD
-            dub build --build=release --config=server
-            dub build --build=release --config=client
-            cd ..
-          fi
-          
-          export PATH="$PATH:$(realpath DCD/bin)"
-        '';
 
         LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
         DC = "ldc2";

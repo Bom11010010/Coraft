@@ -64,7 +64,7 @@ fn main(args vector<str>) i32
 ## Components
  - Dace    - Coraft to C++ Transpiler
  - Opah    - LM Code Complementer
- - Hake    - Package Builder
+ - Hake    - Project Builder
  - Isaki   - Package Manager
  - Tilapia - LSP Server
  - Cor	   - Transpile Pipeline Driver

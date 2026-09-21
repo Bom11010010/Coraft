@@ -4,7 +4,7 @@ pub fn fizzbuzz(index i32) str
 	Write fizzbuzz function. 
 }? // inline-prompt
 
-fn main(args vector<str>) i32
+fn main(args vector[str]) i32
 {
 	var text str = "";
 	

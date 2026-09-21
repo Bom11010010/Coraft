@@ -10,7 +10,7 @@ fn test(i i32)i32 ?{
 }?
 
 fn trim(s str) str ?{
-    Trim the s string.
+    Trim the string.
 }?
 
 fn hello() str
@@ -18,9 +18,17 @@ fn hello() str
     return "   Hello, World  ";
 }
 
+type testType = i32 | str;
+struct TestStruct{
+    a str,
+    b i32
+};
+type testType2 = (TestStruct | i32) | i32;
+
 fn main() i32
 {
     var world str = trim(hello());
+    var testValue testType = "abc";
     say world;
 
     ?{

@@ -1,4 +1,6 @@
 import type { AstBuiltinType } from "./AstBuiltinType";
-import type { AstUnionTypeExpr } from "./AstUnionTypeExpr";
+import type { AstIdent } from "./AstIdent";
+import type { AstInstantStructTypeExpr } from "./AstInstantStructTypeExpr";
+import type { AstSumTypeExpr } from "./AstSumTypeExpr";
 
-export type AstTypeExpr = AstBuiltinType | AstUnionTypeExpr
+export type AstTypeExpr = AstBuiltinType | AstSumTypeExpr | AstInstantStructTypeExpr | AstIdent

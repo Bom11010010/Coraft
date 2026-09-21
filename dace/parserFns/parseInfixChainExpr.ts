@@ -52,9 +52,9 @@ export function parseInfixChainExpr(code: string): ParseData{
         remain = temporaryTerm.remain;
     }
 
+    let aditionalOpe:ParseData;
+    let aditionalTerms:ParseData;
     while(1){
-        let aditionalOpe:ParseData;
-        let aditionalTerms:ParseData;
 
         t = parseWs(remain)
     
@@ -62,7 +62,7 @@ export function parseInfixChainExpr(code: string): ParseData{
             remain = t.remain
         }
 
-        aditionalOpe  = parseInfixOpe(remain);
+        aditionalOpe = parseInfixOpe(remain);
         if(aditionalOpe === undefined){
             break;
         }else{

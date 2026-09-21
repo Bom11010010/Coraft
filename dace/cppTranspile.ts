@@ -12,6 +12,7 @@ export function cppTranspile(ctx: TranspileContext){
 #include <memory>
 #include <vector>
 #include <string>
+#include <variant>
 
 ${recursiveDeparseCpp(ast)}
 `;

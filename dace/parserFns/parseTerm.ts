@@ -7,7 +7,8 @@ import { parsePrefixOpeExpr } from "./parsePrefixOpeExpr"
 import { parseWs } from "./parseWs"
 
 export function parseTerm(code: string): ParseData{
-    let result:ParseData
+    let result:ParseData;
+    
     if((result = parseFnCall(code)) !== undefined){
     }else if((result = parsePrefixOpeExpr(code)) !== undefined){
     }else if((result = parseLiteral(code)) !== undefined){

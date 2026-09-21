@@ -5,10 +5,11 @@ import type { AstTypeExpr } from "../Ast/AstTypeExpr";
 import { parseArgList } from "./parseArgList";
 import { parseBuiltinType } from "./parseBuiltinType";
 import { parseCodeBlock } from "./parseCodeBlock";
-import type { ParseData } from "../ParseData"
+import type { ParseData } from "../ParseData";
 import { parseIdent } from "./parseIdent";
 import { parseKeyword } from "./parseKeyword"
 import { parseWs } from "./parseWs";
+import { parseTypeExpr } from "./parseTypeExpr";
 
 export function parseFnDecl(code: string): ParseData{
     let result:ParseData;
@@ -66,7 +67,7 @@ export function parseFnDecl(code: string): ParseData{
         remain = t.remain;
     }
 
-    const returnTypeData:ParseData = parseBuiltinType(remain);
+    const returnTypeData:ParseData = parseTypeExpr(remain);
     let returnType: AstTypeExpr = {
         nodeType: "BUILTIN_TYPE",
         body: "void"

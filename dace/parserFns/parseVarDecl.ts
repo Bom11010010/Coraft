@@ -9,6 +9,7 @@ import { parseExpr } from "./parseExpr"
 import { parseIdent } from "./parseIdent"
 import { parseKeyword } from "./parseKeyword"
 import { parseWs } from "./parseWs"
+import { parseTypeExpr } from "./parseTypeExpr"
 
 export function parseVarDecl(code: string): ParseData{
     let result:ParseData;
@@ -43,16 +44,14 @@ export function parseVarDecl(code: string): ParseData{
         remain = t.remain
     }
 
-    let typeData = parseBuiltinType(remain)
+    let typeData = parseTypeExpr(remain)
     let type:AstTypeExpr = {
         nodeType: "BUILTIN_TYPE",
         body: "auto"
     }
     if(typeData === undefined){
-    }else if(typeData.deliverable.nodeType !== "BUILTIN_TYPE"){
-        return undefined
     }else{
-        type = typeData.deliverable;
+        type = typeData.deliverable as AstTypeExpr;
         remain = typeData.remain
         t = parseWs(remain)
         if(t !== undefined){

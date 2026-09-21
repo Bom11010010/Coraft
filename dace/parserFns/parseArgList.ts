@@ -5,6 +5,7 @@ import { parseBuiltinType } from "./parseBuiltinType";
 import type { ParseData } from "../ParseData";
 import { parseIdent } from "./parseIdent";
 import { parseWs } from "./parseWs";
+import { parseTypeExpr } from "./parseTypeExpr";
 
 export function parseArgList(code: string): ParseData{
     let result:ParseData
@@ -53,7 +54,7 @@ export function parseArgList(code: string): ParseData{
             remain = t.remain;
         }
         
-        let type = parseBuiltinType(remain);
+        let type = parseTypeExpr(remain);
         if(type === undefined){
             return undefined;
         }

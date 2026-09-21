@@ -155,6 +155,49 @@ return static_cast<int>(co_main());
         let prompt = ast.prompt.replaceAll("\n", "\\\n");
 
         return "\n#pragma opah " + prompt + "\n";
+    }else if(ast.nodeType === "SUM_TYPE_EXPR"){
+        let variant:string = "std::variant<";
+
+        for (let i = 0; i < ast.typeTerms.length; i++) {
+            if(ast.typeTerms[i] === undefined){
+                variant += `std::nullptr_t`;
+            }
+            variant += `${recursiveDeparseCpp(ast.typeTerms[i] as AstNode)}, `;
+        }
+
+        variant = variant.substring(0, variant.length - 2)
+        variant += ">"
+        return variant;
+    }else if(ast.nodeType === "TYPE_DECL"){
+        return `using ${ast.name} = ${recursiveDeparseCpp(ast.body)};`
+    }else if(ast.nodeType === "INSTANT_STRUCT_TYPE_EXPR"){
+        let code = "struct ";
+        if(ast.name !== undefined){
+            code += ast.name + "";
+        }
+        code +="\n{\n"
+
+        for (let i = 0; i < ast.entryNames.length; i++) {
+            const v = ast.entryNames[i];
+            const t = recursiveDeparseCpp(ast.entryTypes[i] as AstNode);
+            
+            code += `${t} ${v};\n`
+        }
+        code += "}\n";
+
+        return code;
+    }else if(ast.nodeType === "STRUCT_DECL"){
+        let code = `struct ${ast.name}\n{\n`;
+
+        for (let i = 0; i < ast.entryNames.length; i++) {
+            const v = ast.entryNames[i];
+            const t = recursiveDeparseCpp(ast.entryTypes[i] as AstNode);
+            
+            code += `${t} ${v};\n`
+        }
+        code += "}\n;\n";
+
+        return code;
     }
 
     

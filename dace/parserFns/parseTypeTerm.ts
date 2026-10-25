@@ -1,8 +1,10 @@
 import type { ParseData } from "../ParseData";
 import { parseBuiltinType } from "./parseBuiltinType";
+import { parseFnTypeExpr } from "./parseFnTypeExpr";
 import { parseIdent } from "./parseIdent";
 import { parseInstantStructTypeExpr } from "./parseInstantStructTypeExpr";
 import { parseTypeExpr } from "./parseTypeExpr";
+import { parseVectorTypeExpr } from "./parseVectorTypeExpr";
 import { parseWs } from "./parseWs";
 
 export function parseTypeTerm(code: string): ParseData{
@@ -11,6 +13,8 @@ export function parseTypeTerm(code: string): ParseData{
     if((result = parseBuiltinType(code)) !== undefined){
     }else if((result = parseInstantStructTypeExpr(code)) !== undefined){
     }else if((result = parseIdent(code)) !== undefined){
+    }else if((result = parseVectorTypeExpr(code)) !== undefined){
+    }else if((result = parseFnTypeExpr(code)) !== undefined){
     }else{
         if(code[0] !== "("){
             return undefined

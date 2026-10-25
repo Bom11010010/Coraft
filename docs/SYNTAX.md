@@ -72,11 +72,11 @@ array[T, S]             // T[S]. Sは省略可能。その場合生成コード�
 ptr[P, T]               // P=u: unique_pointer<T>, P=w: weak_pointer<T>, p=s: shared_pointer<T>. Pは省略可能で、デフォルトだとunique。
 ref[R, T]               // R=falsy: T&, R=truthy: T&&. Rは省略可能で、デフォルトだとfalsy。
 
-vector[T]               // std::vector<T>
+vec[T]               // std::vector<T>
 list[T]                 // std::list<T>
 map[O, K, V]            // O=falsy: std::unordered_map<K, V>, O=Truthy: std::map<K, V>. Oは省略可能で、デフォルトだとfalsy。
 
-(args, ...) -> result   // std::function<result(args, ...)>
+fn(paramName paramT, ...) result   // std::function<result(paramT paramName, ...)> 名前付きパラメーターと無名パラメーターの混在は不可能。
 
 T | U | ...             // std::variant<T, U, ...>
 
@@ -309,6 +309,14 @@ for(initialize; condition; counting)?{      // --> このように、ブロッ�
 
 
 1234           //数値
+N#12345        //N進数の数値リテラル。Nは2から64までが使用可能で必ず十進数で指定する、64進数のディジットは[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/]の順序。
+               // パースの基準となる「パース有効・無効」と、意味解析の基準となる「意味有効・無効」の２つの概念を導入する。
+               // パース有効であるグリフとは、その基数のリテラルにおいてリテラルの塊を形成することができるグリフである。
+               // パース有効なグリフは基数によって異なり、その対応は以下のとおりである。
+               // N <= 10: [0-9], N <= 62: [0-9] [A-Z] [a-z], N == 63: [0-9] [A-Z] [a-z] '+', N == 64: [0-9] [A-Z] [a-z] '+' '/'
+               // 意味有効であるとは、その基数のディジットとして適正であるという意味である。ディジットの値が基数未満であれば意味有効である。
+               // このとき、N <= 36以下においてはディジットの大文字・小文字を区別しない。
+
 "text テキスト" //文字列
 'c'         //文字
 
@@ -330,11 +338,6 @@ ReturnType(ArgTypes args) => { body }   // 関数リテラル
 
 
 //プレフィックス
-0b                  // 2進数数値
-0o                  // 8進数数値
-0d                  // 10進数数値
-0x                  // 16進数数値
-
 u8                  // utf8
 
 //サフィックス
@@ -351,10 +354,10 @@ _64                 //サイズを64bitにする。
 ```
 
 
-cpp_var [ string header, string name, [ template_args ], Type type]
-cpp_type [ string header, string name, [ template_args ] ]
-cpp_fn [ string header, string name, [ template_args ], Type return_type ]
-cpp_struct [ string header, string name, [ template_args ], { body } ]
+cpp_var [ string header, string name, [ template_args, ... ], Type type]
+cpp_type [ string header, string name, [ template_args, ... ] ]
+cpp_fn [ string header, string name, [ template_args, ... ], Type return_type ]
+cpp_struct [ string header, string name, [ template_args, ... ], { body } ]
 cpp_enum [ string header, string name, { body } ]
 cpp_union [ string header, string name, { body } ]
 
@@ -365,7 +368,7 @@ cpp_union [ string header, string name, { body } ]
 ```
 
 
-fn main(args vector[str]) i32;
+fn main(args vec[str]) i32;
 
 
 ```

@@ -5,6 +5,9 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <variant>
+#include <vector>
+#include <functional>
 
 auto a = 0;
 
@@ -20,7 +23,7 @@ std::int32_t test(std::int32_t i)
 
 std::string trim(std::string s)
 #pragma opah \
-    Trim the s string.\
+    Trim the string.\
 
 
 std::string hello()
@@ -28,9 +31,21 @@ std::string hello()
     return "   Hello, World  ";
 }
 
-std::int32_t co_main()
+using testType = std::variant<std::int32_t, std::string, std::vector<std::int32_t>>;
+struct TestStruct
+{
+    std::string a;
+    std::int32_t b;
+}
+;
+
+using testType2 = std::variant<std::variant<TestStruct, std::int32_t>, std::int32_t>;
+using testFnType = std::function<void (std::int32_t, std::vector<std::int32_t>)>;
+
+std::int32_t co_main(std::vector<std::string> args)
 {
     std::string world = trim(hello());
+    testType testValue = "abc";
     std::cout << world << std::endl;
     
     #pragma opah \
@@ -53,7 +68,7 @@ int main(int argc, char *argv[])
     {
         co_argv[i] = std::string(argv[i]);
     }
-    return static_cast<int>(co_main());
+    return static_cast<int>(co_main(co_argv));
 }
 
 

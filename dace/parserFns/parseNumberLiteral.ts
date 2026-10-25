@@ -16,7 +16,7 @@ export function parseNumberLiteral(code: string): ParseData{
     let ast: AstNumberLiteral = {
         nodeType: "NUM_LITERAL",
         radix: 10,
-        body: code.substring(0,i)
+        body: code.substring(0, i)
     }
     if(i == 0){
         return undefined;

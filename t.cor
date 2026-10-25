@@ -18,14 +18,16 @@ fn hello() str
     return "   Hello, World  ";
 }
 
-type testType = i32 | str;
+type testType = i32 | str | vec[i32];
 struct TestStruct{
     a str,
     b i32
 };
 type testType2 = (TestStruct | i32) | i32;
 
-fn main() i32
+type testFnType = fn(i32, vec[i32])void;
+
+fn main(args vec[str]) i32
 {
     var world str = trim(hello());
     var testValue testType = "abc";

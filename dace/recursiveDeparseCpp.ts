@@ -93,7 +93,7 @@ for(size_t i = 0; i < argc; ++i)
 {
 co_argv[i] = std::string(argv[i]);
 }
-return static_cast<int>(co_main());
+return static_cast<int>(co_main(co_argv));
 }`
         }
 
@@ -198,6 +198,18 @@ return static_cast<int>(co_main());
         code += "}\n;\n";
 
         return code;
+    }else if(ast.nodeType === "VECTOR_TYPE_EXPR"){
+        return `std::vector<${recursiveDeparseCpp(ast.type)}>`
+    }else if(ast.nodeType === "FUNCTION_TYPE_EXPR"){
+        let code = `std::function<${recursiveDeparseCpp(ast.returnType)} (`;
+        
+        for (let i = 0; i < ast.paramTypes.length; i++) {
+            const paramType = recursiveDeparseCpp(ast.paramTypes[i] as AstNode);
+            
+            code += `${paramType}, `
+        }
+        code = code.substring(0, code.length - 2) + ")>"
+        return code
     }
 
     

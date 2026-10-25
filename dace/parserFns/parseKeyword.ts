@@ -1,7 +1,7 @@
 import type { ParseData } from "../ParseData";
 import { parseName } from "./parseName";
 
-const kwList = ["say", "if", "else", "elif", "for", "var", "fn", "type", "struct", "return", "true", "false", "null"];
+const kwList = ["say", "if", "else", "elif", "for", "var", "fn", "type", "struct", "return", "true", "false", "null", "vec", "cpp_type", "cpp_fn", "cpp_var"];
 
 export function parseKeyword(code: string): ParseData{
     let result:ParseData
@@ -13,7 +13,6 @@ export function parseKeyword(code: string): ParseData{
     if(result.deliverable.nodeType !== "ABSTRACT_NAME"){
         return undefined;
     }
-
 
     if(kwList.includes(result.deliverable.name)){
         result.deliverable = {

@@ -91,7 +91,6 @@ export function parseInstantStructTypeExpr(code: string): ParseData{
             if(t !== undefined){
                 remain = t.remain;
             }
-            console.log(remain)
         }
     }
 

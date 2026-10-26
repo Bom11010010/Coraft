@@ -1,13 +1,10 @@
-
-#include <iostream>
-#include <cstdint>
-#include <cstddef>
-#include <memory>
-#include <vector>
 #include <string>
+#include <cstdint>
 #include <variant>
 #include <vector>
 #include <functional>
+#include <iostream>
+
 
 auto a = 0;
 
@@ -41,7 +38,6 @@ struct TestStruct
 
 using testType2 = std::variant<std::variant<TestStruct, std::int32_t>, std::int32_t>;
 using testFnType = std::function<void (std::int32_t, std::vector<std::int32_t>)>;
-
 std::int32_t co_main(std::vector<std::string> args)
 {
     std::string world = trim(hello());

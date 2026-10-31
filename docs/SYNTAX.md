@@ -60,6 +60,9 @@ str         // std::string
 
 null        // nullptr_t
 
+//以下はコンパイル時型
+type        //型を差す型
+
 
 ```
 
@@ -72,15 +75,17 @@ array[T, S]             // T[S]. Sは省略可能。その場合生成コード�
 ptr[P, T]               // P=u: unique_pointer<T>, P=w: weak_pointer<T>, p=s: shared_pointer<T>. Pは省略可能で、デフォルトだとunique。
 ref[R, T]               // R=falsy: T&, R=truthy: T&&. Rは省略可能で、デフォルトだとfalsy。
 
-vec[T]               // std::vector<T>
-list[T]                 // std::list<T>
+vec[T]                  // std::vector<T>
 map[O, K, V]            // O=falsy: std::unordered_map<K, V>, O=Truthy: std::map<K, V>. Oは省略可能で、デフォルトだとfalsy。
 
-fn(paramName paramT, ...) result   // std::function<result(paramT paramName, ...)> 名前付きパラメーターと無名パラメーターの混在は不可能。
+(paramName paramT, ...) -> result  // std::function<result(paramT paramName, ...)> 名前付きパラメーターと無名パラメーターの混在は不可能。
 
 T | U | ...             // std::variant<T, U, ...>
 
 opt[T]                  // std::optional<T>
+
+//以下はコンパイル時型
+[paramName paramT, ...] -> result // ジェネリック
 
 
 ```
@@ -353,10 +358,11 @@ _64                 //サイズを64bitにする。
 ### C++とのFFI
 ```
 
+// nameには識別子単体じゃなくてstd::ifstreamのように名前空間からのフルネームを入れる。
 
 cpp_var [ string header, string name, [ template_args, ... ], Type type]
 cpp_type [ string header, string name, [ template_args, ... ] ]
-cpp_fn [ string header, string name, [ template_args, ... ], Type return_type ]
+cpp_fn [ string header, string name, [ template_args, ... ], Type (args, ...) -> return_type ]
 cpp_struct [ string header, string name, [ template_args, ... ], { body } ]
 cpp_enum [ string header, string name, { body } ]
 cpp_union [ string header, string name, { body } ]

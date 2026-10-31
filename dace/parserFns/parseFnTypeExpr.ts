@@ -4,20 +4,12 @@ import type { AstNode } from "../Ast/AstNode";
 import type { AstTypeExpr } from "../Ast/AstTypeExpr";
 import type { ParseData } from "../ParseData";
 import { parseIdent } from "./parseIdent";
-import { parseKeyword } from "./parseKeyword";
 import { parseTypeExpr } from "./parseTypeExpr";
 import { parseWs } from "./parseWs";
 
 export function parseFnTypeExpr(code: string): ParseData{
     let result:ParseData
     let remain = code;
-
-    
-    const kw = parseKeyword(remain);
-    if(kw === undefined || kw.deliverable.nodeType !== "KEYWORD" || kw.deliverable.name !== "fn"){
-        return undefined;
-    }
-    remain = kw.remain;
 
     let paramTypes = [];
     let paramNames = undefined;
@@ -120,25 +112,38 @@ export function parseFnTypeExpr(code: string): ParseData{
         
 
     }
-    let returnTypeExpr = parseTypeExpr(remain)
+    
+    t = parseWs(remain);
+    if (t !== undefined){
+        remain = t.remain;
+    }
+
+    if(remain.substring(0, 2) === undefined && remain.substring(0, 2) !== "->"){
+        return undefined;
+    }
+    remain = remain.substring(2);
+    
+    t = parseWs(remain);
+    if (t !== undefined){
+        remain = t.remain;
+    }
+
+    let returnTypeExpr = parseTypeExpr(remain);
     if(returnTypeExpr === undefined){
         return undefined
     }
-
     remain = returnTypeExpr.remain;
     let returnType = returnTypeExpr.deliverable;
 
     result = {
         remain: remain,
         deliverable: {
-            nodeType: "FUNCTION_TYPE_EXPR",
+            nodeType: "FN_TYPE_EXPR",
             returnType: returnType as AstTypeExpr,
             paramTypes: paramTypes,
             paramNames: paramNames
         }
     }
-    
-    console.log(result)
 
     return result;
 }

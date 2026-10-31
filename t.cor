@@ -25,7 +25,7 @@ struct TestStruct{
 };
 type testType2 = (TestStruct | i32) | i32;
 
-type testFnType = fn(i32, vec[i32])void;
+type testFnType = (i32, vec[i32]) -> void;
 
 fn main(args vec[str]) i32
 {

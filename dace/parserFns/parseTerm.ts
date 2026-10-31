@@ -1,4 +1,5 @@
 import type { ParseData } from "../ParseData"
+import { parseCppIdentExpr } from "./parseCppIdentExpr"
 import { parseExpr } from "./parseExpr"
 import { parseFnCall } from "./parseFnCall"
 import { parseIdent } from "./parseIdent"
@@ -13,6 +14,7 @@ export function parseTerm(code: string): ParseData{
     }else if((result = parsePrefixOpeExpr(code)) !== undefined){
     }else if((result = parseLiteral(code)) !== undefined){
     }else if((result = parseIdent(code)) !== undefined){
+    }else if((result = parseCppIdentExpr(code)) !== undefined){
     }else{
         if(code[0] !== "("){
             return undefined

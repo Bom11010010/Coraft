@@ -200,7 +200,7 @@ return static_cast<int>(co_main(co_argv));
         return code;
     }else if(ast.nodeType === "VECTOR_TYPE_EXPR"){
         return `std::vector<${recursiveDeparseCpp(ast.type)}>`
-    }else if(ast.nodeType === "FUNCTION_TYPE_EXPR"){
+    }else if(ast.nodeType === "FN_TYPE_EXPR"){
         let code = `std::function<${recursiveDeparseCpp(ast.returnType)} (`;
         
         for (let i = 0; i < ast.paramTypes.length; i++) {
@@ -210,6 +210,8 @@ return static_cast<int>(co_main(co_argv));
         }
         code = code.substring(0, code.length - 2) + ")>"
         return code
+    }else if(ast.nodeType === "CPP_IDENT_EXPR"){
+        return ast.name.substring(1, ast.name.length - 1)
     }
 
     

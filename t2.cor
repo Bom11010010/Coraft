@@ -1,0 +1,9 @@
+
+var test = cpp_import["cstdio", "std::printf", (str) -> void];
+
+fn main(args vec[str]) i32{
+    var hello str = "Hello, World";
+    test(hello);
+
+    return 0;
+}

@@ -1,11 +1,10 @@
 # 検討中の仕様
 
-## ジェネリック引数の括弧
+## 外部シンボル
 ```
 
 
-Generic<T>      //こっちと
-Generic[T]      //こっちで迷ってる。
+extern_symbol [string header, string name, type T]  //これにまとめるというアイディアもあり得る。
 
 
 ```
@@ -41,9 +40,9 @@ parallel_repeat(N){
 ```
 
 
-*T                      // unique_pointer<T>
-+T                      // shared_pointer<T>
--T                      // weak_pointer<T>
+*T                      // std::unique_pointer<T>
++T                      // std::shared_pointer<T>
+-T                      // std::weak_pointer<T>
 
 
 &T                      // T&
@@ -59,7 +58,7 @@ parallel_repeat(N){
 
 
 //型
-complex<T>              //各軸がTタイプの複素数。
+complex[T]              //各軸がTタイプの複素数。
 
 //リテラルサフィックス
 i                       //純虚数。4iのように書かれ、直前の数値に虚数単位をかけた値になる。
@@ -72,7 +71,7 @@ i                       //純虚数。4iのように書かれ、直前の数値�
 
 
 //型
-dual<T>              //各軸がTタイプの二重数。
+dual[T]              //各軸がTタイプの二重数。
 
 //リテラルサフィックス
 eps                     //純イプシロン。4epsのように書かれ、直前の数値に二重数単位$\epsilon$をかけた値になる。
@@ -84,7 +83,7 @@ eps                     //純イプシロン。4epsのように書かれ、直�
 ```
 
 
-quaternion<T>           //各軸がTタイプの四元数。
+quaternion[T]           //各軸がTタイプの四元数。
 
 
 //リテラルサフィックス

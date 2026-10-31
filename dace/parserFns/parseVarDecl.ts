@@ -86,6 +86,7 @@ export function parseVarDecl(code: string): ParseData{
     if(block === undefined){
         return undefined
     }
+    remain = block.remain;
 
     result = {
         remain: block.remain,

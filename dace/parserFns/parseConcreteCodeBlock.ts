@@ -5,7 +5,7 @@ import { parseWs } from "./parseWs";
 
 export function parseConcreteCodeBlock(code: string): ParseData{
     let result:ParseData;
-    let remain: string = "";
+    let remain: string = code;
     let t: ParseData;
 
     let stmts: AstStmt[] = [];

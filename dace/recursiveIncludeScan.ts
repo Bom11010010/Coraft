@@ -130,7 +130,7 @@ export function recursiveIncludeScan(ast: AstNode): string[]{
             return includes;
         }else if(ast.nodeType === "VECTOR_TYPE_EXPR"){
             return ["vector", ...recursiveIncludeScan(ast.type)]
-        }else if(ast.nodeType === "FUNCTION_TYPE_EXPR"){
+        }else if(ast.nodeType === "FN_TYPE_EXPR"){
             let includes:string[] = ["functional"];
             includes.push(...recursiveIncludeScan(ast.returnType));
             
@@ -138,6 +138,8 @@ export function recursiveIncludeScan(ast: AstNode): string[]{
                 includes.push(...recursiveIncludeScan(ast.paramTypes[i] as AstNode));
             }
             return includes
+        }else if(ast.nodeType === "CPP_IDENT_EXPR"){
+            return [ast.header.substring(1, ast.header.length - 1)];
         }
     
         

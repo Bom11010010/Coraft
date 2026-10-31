@@ -1,7 +1,7 @@
 import type { ParseData } from "../ParseData";
 import { parseName } from "./parseName";
 
-const kwList = ["say", "if", "else", "elif", "for", "var", "fn", "type", "struct", "return", "true", "false", "null", "vec", "cpp_type", "cpp_fn", "cpp_var"];
+const kwList = ["say", "if", "else", "elif", "for", "var", "fn", "type", "struct", "return", "true", "false", "null", "vec", "cpp_import"];
 
 export function parseKeyword(code: string): ParseData{
     let result:ParseData
